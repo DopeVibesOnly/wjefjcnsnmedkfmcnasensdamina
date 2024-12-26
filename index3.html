@@ -1,0 +1,337 @@
+<html><head><base href=".">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Предсказания - Сайт Амины v2</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e3eeff 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    animation: fall linear forwards;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+.header {
+    background: linear-gradient(45deg, #ff8dc7, #ff9ed7);
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.header h1 {
+    color: white;
+    text-align: center;
+    font-size: 3.8em;
+    font-family: 'Playfair Display', serif;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+}
+
+.header::before, .header::after {
+    content: '✨';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2em;
+    animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.header::before { left: 30px; }
+.header::after { right: 30px; }
+
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+    50% { opacity: 0.5; transform: translateY(-50%) scale(0.8); }
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff69b4; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4; }
+}
+
+.nav {
+    background: white;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav li {
+    position: relative;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.nav li:hover {
+    transform: translateY(-2px);
+    color: #ff69b4;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav li i {
+    margin-right: 8px;
+    color: #ff69b4;
+}
+
+.photo-container {
+    max-width: 1400px;
+    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 40px;
+    justify-content: center;
+}
+
+.photo-card {
+    width: 350px;
+    height: 450px;
+    position: relative;
+    perspective: 1000px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photo-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.photo-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.photo-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: background 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    color: white;
+}
+
+.photo-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0));
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.photo-card:hover .photo-content::before {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+}
+
+.photo-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photo-card:hover .photo-bg {
+    transform: scale(1.5);
+}
+
+.photo-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2em;
+    margin-bottom: 10px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.photo-description {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1em;
+    line-height: 1.6;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease 0.1s;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.photo-card:hover .photo-inner {
+    transform: rotate(0) scale(1.05);
+}
+
+.photo-card:hover .photo-title,
+.photo-card:hover .photo-description {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.photo-card::after {
+    content: '❄️';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 2em;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.photo-card:hover::after {
+    opacity: 1;
+    transform: rotate(30deg);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Сайт Амины v2</h1>
+</div>
+
+<nav class="nav">
+    <ul>
+        <li><a href="index2.html"><i class="fas fa-gift"></i> Предсказания</a></li>
+        <li><a href="index3.html"><i class="fas fa-calendar-alt"></i>Фоточки</a></li>
+        <li><a href="index4.html"><i class="fas fa-star"></i>Математика</a></li>
+        <li><a href="index5.html"><i class="fas fa-snowflake"></i>Опрос</a></li>
+        <li><a href="index6.html"><i class="fas fa-envelope"></i>Обращение</a></li>
+    </ul>
+</nav>
+ 
+<div class="photo-container">
+    <div class="photo-card">
+        <div class="photo-inner">
+            <div class="photo-content">
+                <img class="photo-bg" src="https://dl.dropboxusercontent.com/scl/fi/3w81r54phk1glz5ej2ybv/photo_2024-12-09_11-01-27.jpg?rlkey=dz3vqkx3wnve7m0azwt9zrog7&st=afw4kgel&dl=1" alt="Winter Scene">
+                <h3 class="photo-title">Аминочка</h3>
+                <p class="photo-description">Знаешь чем ты отличаешься от тех двух закатов справа?</p>
+            </div>
+        </div>
+</div>
+<div class="photo-card">
+    <div class="photo-inner">
+        <div class="photo-content">
+            <img class="photo-bg" src="https://dl.dropboxusercontent.com/scl/fi/lls9qorw38i58qqpur2xp/.jpg?rlkey=t72spfna5wqfp1qxti72rz9st&st=203q4k8c&dl=0" alt="Winter Forest">
+            <h3 class="photo-title">Закат</h3>
+            <p class="photo-description">Ничем, вы все втроём прекрасные и красивые!</p>
+        </div>
+    </div>
+</div>
+    <div class="photo-card">
+        <div class="photo-inner">
+            <div class="photo-content">
+                <img class="photo-bg" src="https://dl.dropboxusercontent.com/scl/fi/jbd75kpkvmczono43sk0q/photo_2022-10-21_12-54-33.jpg?rlkey=lqnrprtuau59zw76d3vzqt8ch&st=10i2zrri&dl=0" alt="Snowy Mountains">
+                <h3 class="photo-title">Закат</h3>
+                <p class="photo-description">Ы, эти закаты кстати, лично я фотал, в турции.</p>
+            </div>
+        </div>
+    </div>
+    
+
+<script>
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄';
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.opacity = Math.random();
+    snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+    document.body.appendChild(snowflake);
+
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+setInterval(createSnowflake, 100);
+
+function checkScroll() {
+    const cards = document.querySelectorAll('.photo-card');
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight * 0.9) {
+            card.classList.add('visible');
+        }
+    });
+}
+
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('load', checkScroll);
+
+// Initialize photo cards with random rotation
+document.querySelectorAll('.photo-card').forEach((card, index) => {
+    const rotation = Math.random() * 10 - 5;
+    card.querySelector('.photo-inner').style.transform = `rotate(${rotation}deg)`;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<html><head><base href="?">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сайт Амины v2</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e3eeff 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    animation: fall linear forwards;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+.header {
+    background: linear-gradient(45deg, #ff8dc7, #ff9ed7);
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.header h1 {
+    color: white;
+    text-align: center;
+    font-size: 3.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+}
+
+.nav {
+    background: white;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav li {
+    position: relative;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.nav li:hover {
+    transform: translateY(-2px);
+    color: #ff69b4;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav li i {
+    margin-right: 8px;
+    color: #ff69b4;
+}
+
+.puzzle-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(50px);
+    opacity: 0;
+    animation: slideIn 1s forwards;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.question-box {
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #fff5f9 0%, #fff 100%);
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(255,105,180,0.1);
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+}
+
+.question-box:hover {
+    transform: translateY(-5px) rotateX(5deg);
+    box-shadow: 0 15px 30px rgba(255,105,180,0.2);
+}
+
+.question {
+    font-size: 1.4em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.answer-input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ff69b4;
+    border-radius: 10px;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.answer-input:focus {
+    outline: none;
+    box-shadow: 0 0 15px rgba(255,105,180,0.3);
+    border-color: #ff4499;
+}
+
+.submit-btn {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff69b4, #ff8dc7);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(255,105,180,0.3);
+}
+
+.feedback, .correct-answer {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.feedback.show, .correct-answer.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feedback.submitted {
+    background: rgba(147,112,219,0.1);
+    color: #9370db;
+}
+
+.correct-answer {
+    background: rgba(0,255,0,0.1);
+    color: #2ecc71;
+    margin-top: 10px;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff69b4, 0 0 20px #ff69b4;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4;
+    }
+}
+
+.completion-message {
+    display: none;
+    text-align: center;
+    font-size: 1.5em;
+    color: #ff69b4;
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Сайт Амины v2</h1>
+</div>
+
+<nav class="nav">
+    <ul>
+        <li><a href="index2.html"><i class="fas fa-gift"></i> Предсказания</a></li>
+        <li><a href="index3.html"><i class="fas fa-calendar-alt"></i>Фоточки</a></li>
+        <li><a href="index4.html"><i class="fas fa-star"></i>Математика</a></li>
+        <li><a href="index5.html"><i class="fas fa-snowflake"></i>Опрос</a></li>
+        <li><a href="index6.html"><i class="fas fa-envelope"></i>Обращение</a></li>
+    </ul>
+</nav>
+
+<div class="puzzle-container">
+    <div class="question-box">
+        <div class="question"></div>
+        <input type="text" class="answer-input" placeholder="Введите ваш ответ...">
+        <button class="submit-btn">Отправить</button>
+        <div class="feedback"></div>
+        <div class="correct-answer"></div>
+    </div>
+    <div class="completion-message"></div>
+</div>
+
+<script>
+const questions = [
+    {
+        question: "Что невозможно увидеть, но можно почувствовать?",
+        answer: "Мою любовь к тебе."
+    },
+    {
+        question: "Что всегда рядом, даже когда далеко?",
+        answer: "Тепло твоих слов."
+    },
+    {
+        question: "Что нельзя увидеть в зеркале, но каждый замечает вокруг тебя?",
+        answer: "Твоя харизма."
+    },
+    {
+        question: "Что можно услышать даже в тишине?",
+        answer: "Твой голос в моих мыслях."
+    },
+    {
+        question: "Что согревает сильнее солнечных лучей?",
+        answer: "Твое внимание."
+    }
+];
+
+let currentQuestion = 0;
+
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄';
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.opacity = Math.random();
+    snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+    document.body.appendChild(snowflake);
+
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+setInterval(createSnowflake, 100);
+
+function showQuestion() {
+    if (currentQuestion >= questions.length) {
+        document.querySelector('.question-box').style.display = 'none';
+        const completionMessage = document.querySelector('.completion-message');
+        completionMessage.style.display = 'block';
+        completionMessage.innerHTML = '🎉 Теперь ты знаешь все ответы! 🎉';
+        return;
+    }
+    
+    document.querySelector('.question').textContent = questions[currentQuestion].question;
+    document.querySelector('.answer-input').value = '';
+    document.querySelector('.feedback').classList.remove('show', 'submitted');
+    document.querySelector('.correct-answer').classList.remove('show');
+}
+
+document.querySelector('.submit-btn').addEventListener('click', () => {
+    const userAnswer = document.querySelector('.answer-input').value.trim();
+    const feedback = document.querySelector('.feedback');
+    const correctAnswer = document.querySelector('.correct-answer');
+    
+    feedback.textContent = 'Анализирую..';
+    feedback.classList.add('show', 'submitted');
+    
+    correctAnswer.textContent = `Правильный ответ: ${questions[currentQuestion].answer}`;
+    correctAnswer.classList.add('show');
+    
+    setTimeout(() => {
+        currentQuestion++;
+        showQuestion();
+    }, 3000);
+});
+
+document.querySelector('.answer-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        document.querySelector('.submit-btn').click();
+    }
+});
+
+showQuestion();
+</script>
+
+</body></html>

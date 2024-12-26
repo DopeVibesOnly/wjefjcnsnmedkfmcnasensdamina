@@ -1,0 +1,262 @@
+<html><head><base href="?">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сайт Амины v2</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e3eeff 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    animation: fall linear forwards;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+.header {
+    background: linear-gradient(45deg, #ff8dc7, #ff9ed7);
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.header h1 {
+    color: white;
+    text-align: center;
+    font-size: 3.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+}
+
+.nav {
+    background: white;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav li {
+    position: relative;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.nav li:hover {
+    transform: translateY(-2px);
+    color: #ff69b4;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav li i {
+    margin-right: 8px;
+    color: #ff69b4;
+}
+
+.message-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.message-content {
+    position: relative;
+    z-index: 2;
+}
+
+.message-text {
+    font-size: 1.4em;
+    color: #333;
+    line-height: 1.8;
+    text-align: center;
+    margin: 20px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+}
+
+.butterfly {
+    position: absolute;
+    font-size: 1.5em;
+    pointer-events: none;
+    animation: butterflyFly 15s infinite linear;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+@keyframes butterflyFly {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(100px, -50px) rotate(45deg); }
+    50% { transform: translate(200px, 0) rotate(0deg); }
+    75% { transform: translate(100px, 50px) rotate(-45deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.decor-element {
+    position: absolute;
+    font-size: 3em;
+    color: #ff69b4;
+    opacity: 0.1;
+    transition: all 0.3s ease;
+}
+
+.decor-element:hover {
+    opacity: 0.3;
+    transform: rotate(360deg);
+}
+
+.decor-top-left { top: 10px; left: 10px; }
+.decor-top-right { top: 10px; right: 10px; }
+.decor-bottom-left { bottom: 10px; left: 10px; }
+.decor-bottom-right { bottom: 10px; right: 10px; }
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ff69b4;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+@keyframes sparkleAnimation {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.message-appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff69b4, 0 0 20px #ff69b4; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4; }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Сайт Амины v2</h1>
+</div>
+
+<nav class="nav">
+    <ul>
+        <li><a href="index2.html"><i class="fas fa-gift"></i> Предсказания</a></li>
+        <li><a href="index3.html"><i class="fas fa-calendar-alt"></i>Фоточки</a></li>
+        <li><a href="index4.html"><i class="fas fa-star"></i>Математика</a></li>
+        <li><a href="index5.html"><i class="fas fa-snowflake"></i>Опрос</a></li>
+        <li><a href="index6.html"><i class="fas fa-envelope"></i>Обращение</a></li>
+    </ul>
+</nav>
+
+<div class="message-container">
+    <div class="butterfly">🦋</div>
+    <div class="decor-element decor-top-left">❀</div>
+    <div class="decor-element decor-top-right">❀</div>
+    <div class="decor-element decor-bottom-left">❀</div>
+    <div class="decor-element decor-bottom-right">❀</div>
+    <div class="message-content">
+        <div class="message-text">Что-ж вот и 2 версия этого сайта, чему я научился за последние 20 дней.</div>
+        <div class="message-text">Ты говорила что своими руками подарок лучше, и это правда, надеюсь этот подарок тебе тоже понравиться!</div>
+        <div class="message-text">До нового года 2025 осталось 5 дней, и я честно, не знаю чего ты хочешь, так что как вариант, пожелать тебе всего того, чего ты сама и захочешь.</div>
+        <div class="message-text">В этот раз сайт я делал больше чем 2 дня, и на него ушло большое количество сил и моих чувств! 🌝</div>
+        <div class="message-text">Если ты помнишь, что я говорил про подарок от тебя, то, уже понимаешь, что сделала его мне.</div>
+        <div class="message-text">С самыми добрыми пожеланиями,<br>Лео 💝</div>
+    </div>
+</div>
+
+<script>
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄';
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.opacity = Math.random();
+    snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+    document.body.appendChild(snowflake);
+
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+function createSparkle(x, y) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    document.querySelector('.message-container').appendChild(sparkle);
+    
+    sparkle.style.animation = 'sparkleAnimation 1s forwards';
+    setTimeout(() => sparkle.remove(), 1000);
+}
+
+document.querySelector('.message-container').addEventListener('mousemove', (e) => {
+    if (Math.random() < 0.1) {
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        createSparkle(x, y);
+    }
+});
+
+setInterval(createSnowflake, 100);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const messageTexts = document.querySelectorAll('.message-text');
+    messageTexts.forEach((text, index) => {
+        setTimeout(() => {
+            text.classList.add('message-appear');
+        }, index * 800);
+    });
+});
+</script>
+
+</body></html>

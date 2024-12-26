@@ -1,0 +1,313 @@
+<html><head><base href="?">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сайт Амины v2</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e3eeff 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+    animation: fall linear forwards;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
+
+.header {
+    background: linear-gradient(45deg, #ff8dc7, #ff9ed7);
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(255,255,255,0.3);
+}
+
+.header h1 {
+    color: white;
+    text-align: center;
+    font-size: 3.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+}
+
+.nav {
+    background: white;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav li {
+    position: relative;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+}
+
+.nav li:hover {
+    transform: translateY(-2px);
+    color: #ff69b4;
+}
+
+.nav li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav li i {
+    margin-right: 8px;
+    color: #ff69b4;
+}
+
+.math-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    perspective: 1000px;
+}
+
+.math-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(50px) rotateX(10deg);
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+}
+
+.math-card.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+}
+
+.math-equation {
+    font-family: 'Courier New', monospace;
+    font-size: 1.8em;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #333;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    backface-visibility: hidden;
+}
+
+.math-hidden {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5em;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) scale(0.8);
+    color: #ff69b4;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 2px 2px 4px rgba(255,105,180,0.3);
+}
+
+.math-card:hover {
+    transform: translateY(-10px) scale(1.05) rotateY(10deg);
+    box-shadow: 20px 20px 60px rgba(255,105,180,0.2), 
+                -20px -20px 60px rgba(255,255,255,0.8);
+    background: linear-gradient(135deg, #fff5f9 0%, #fff 100%);
+}
+
+.math-card:hover .math-equation {
+    transform: translateY(-100%) scale(0.8) rotateX(90deg);
+    opacity: 0;
+}
+
+.math-card:hover .math-hidden {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.1); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+.math-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+
+.math-card:hover::before {
+    opacity: 0.5;
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% { transform: rotate(45deg) translateY(0); }
+    100% { transform: rotate(45deg) translateY(100%); }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff69b4, 0 0 20px #ff69b4;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Сайт Амины v2</h1>
+</div>
+
+<nav class="nav">
+    <ul>
+        <li><a href="index2.html"><i class="fas fa-gift"></i> Предсказания</a></li>
+        <li><a href="index3.html"><i class="fas fa-calendar-alt"></i>Фоточки</a></li>
+        <li><a href="index4.html"><i class="fas fa-star"></i>Математика</a></li>
+        <li><a href="index5.html"><i class="fas fa-snowflake"></i>Опрос</a></li>
+        <li><a href="index6.html"><i class="fas fa-envelope"></i>Обращение</a></li>
+    </ul>
+</nav>
+
+<div class="math-container">
+    <div class="math-card">
+        <div class="math-equation">πr²cute</div>
+        <div class="math-hidden">Отсылка к формуле площади круга πr² Ur cute</div>
+    </div>
+    <div class="math-card">
+        <div class="math-equation">sin²(U) + cos²(Me) = 1</div>
+        <div class="math-hidden">Ты и я – идеальная дружба</div>
+    </div>
+    <div class="math-card">
+        <div class="math-equation">f(You) = Love(x)</div>
+        <div class="math-hidden">Функция тебя всегда равна любви</div>
+    </div>
+    <div class="math-card">
+        <div class="math-equation">P(You | Me) = 1</div>
+        <div class="math-hidden">Вероятность тебя со мной — 100%</div>
+    </div>
+    <div class="math-card">
+        <div class="math-equation">You ∈ Me</div>
+        <div class="math-hidden">Ты всегда внутри моего сердца</div>
+    </div>
+    <div class="math-card">
+        <div class="math-equation">√(Me) = You</div>
+        <div class="math-hidden">Ты — мой корень</div>
+    </div>
+</div>
+
+<script>
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄';
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.opacity = Math.random();
+    snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+    document.body.appendChild(snowflake);
+
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+setInterval(createSnowflake, 100);
+
+function checkScroll() {
+    const cards = document.querySelectorAll('.math-card');
+    cards.forEach((card, index) => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight * 0.9) {
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, index * 200);
+        }
+    });
+}
+
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('load', checkScroll);
+
+document.querySelectorAll('.math-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const xRotation = ((y - rect.height / 2) / rect.height) * 20;
+        const yRotation = ((x - rect.width / 2) / rect.width) * 20;
+        
+        card.style.transform = `perspective(1000px) rotateX(${-xRotation}deg) rotateY(${yRotation}deg) scale(1.05)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    });
+});
+</script>
+
+</body></html>
